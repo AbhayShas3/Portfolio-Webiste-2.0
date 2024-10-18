@@ -5,6 +5,7 @@ import './index.css';
 import project3Image from './Images/maxresdefault.jpg'
 import project2Image from './Images/hnlhcy6ipoqegwblrnge.webp'
 import project1Image from './Images/Sol.png'
+import resumePDF from './Images/Resume.pdf'
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { HiDocument } from 'react-icons/hi';
@@ -46,16 +47,20 @@ function Navbar() {
 function SocialLinks() {
   return (
     <div className="flex justify-center space-x-6 my-8">
-      <a href="mailto:your.email@example.com" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+      <a href="mailto:abhay.s.shastry@gmail.com" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
         <MdEmail className="w-6 h-6" />
       </a>
-      <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+      <a href="https://www.linkedin.com/in/abhay-shastry" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
         <FaLinkedin className="w-6 h-6" />
       </a>
-      <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+      <a href="https://github.com/abhayshas3" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
         <FaGithub className="w-6 h-6" />
       </a>
-      <a href="/path-to-your-cv.pdf" download className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+      <a 
+        href={resumePDF}
+        download="Resume.pdf"
+        className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
+      >
         <HiDocument className="w-6 h-6" />
       </a>
     </div>
