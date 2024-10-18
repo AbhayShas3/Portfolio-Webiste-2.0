@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { BriefcaseIcon, AcademicCapIcon, BeakerIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { EnvelopeIcon, DocumentTextIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import './index.css';
-
+import project3Image from './Images/maxresdefault.jpg'
+import project2Image from './Images/hnlhcy6ipoqegwblrnge.webp'
+import project1Image from './Images/Sol.png'
 function Navbar() {
   const navItems = [
     { name: 'About', href: '#about' },
@@ -232,24 +234,24 @@ function App() {
   const projects = [
     {
       id: 1,
-      title: "Etherium Full Stack Website",
-      description: "A Full Stack Commerical website templant built with React and Solidity using EVM",
-      imageUrl: "/path-to-image-recognition-project.jpg", // Replace with actual image path
-      link: "https://github.com/yourusername/image-recognition-project"
+      title: "Ethereum Full Stack Website",
+      description: "A Full Stack Commerical website template built with React and Solidity using EVM",
+      imageUrl: project1Image, 
+      link: "https://github.com/AbhayShas3/Ethereum_Ecomm_Website"
     },
     {
       id: 2,
       title: "Music Recommendation System",
       description: "Emotion based music recommendation system using Neural Networks",
-      imageUrl: "/path-to-nlp-sentiment-project.jpg", // Replace with actual image path
-      link: "https://github.com/yourusername/nlp-sentiment-analysis"
+      imageUrl: project2Image, 
+      link: "https://github.com/MajorProjectGroup69/Music-Recommendation-System-using-Deep-Learning-for-Therapy"
     },
     {
       id: 3,
-      title: "Predictive Maintenance using IoT and Machine Learning",
-      description: "Implemented a system that uses IoT sensor data and machine learning algorithms to predict equipment failures before they occur, reducing downtime in industrial settings.",
-      imageUrl: "/path-to-predictive-maintenance-project.jpg", // Replace with actual image path
-      link: "https://github.com/yourusername/predictive-maintenance-ml"
+      title: "Yolo-v8 Inference API",
+      description: "Dockerized API that can be used for inference any yolov8 detection,classification or segmentation onnx file",
+      imageUrl: project3Image, 
+      link: "https://github.com/AbhayShas3/yolov8_API"
     }
   ];
 
