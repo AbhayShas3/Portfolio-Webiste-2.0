@@ -5,7 +5,7 @@ import './index.css';
 import emailjs from 'emailjs-com';
 import NET from 'vanta/dist/vanta.net.min';
 import * as THREE from 'three';
-
+import profileImage from './Images/df67f6be-9651-4a38-b2ef-7e7971e21dc4.JPG';
 import project3Image from './Images/maxresdefault.jpg'
 import project2Image from './Images/hnlhcy6ipoqegwblrnge.webp'
 import project1Image from './Images/Sol.png'
@@ -13,7 +13,10 @@ import resumePDF from './Images/Resume.pdf'
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { HiDocument } from 'react-icons/hi';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const navItems = [
     { name: 'About', href: '#about' },
     { name: 'Experience & Education', href: '#experience' },
@@ -26,28 +29,54 @@ function Navbar() {
     <nav className="bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-white">Abhay Shastry</span>
-            </div>
+          <div className="flex items-center">
+            <span className="text-xl font-bold text-white">Abhay Shastry</span>
           </div>
-          <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+          <div className="hidden md:flex items-center space-x-4">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-300 hover:border-gray-300 hover:text-white"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            >
+              {isMenuOpen ? (
+                <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+              ) : (
+                <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {isMenuOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                onClick={() => setIsMenuOpen(false)}
               >
                 {item.name}
               </a>
             ))}
           </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 }
-
 function SocialLinks() {
   return (
     <div className="flex justify-center space-x-6 my-8">
@@ -95,27 +124,31 @@ function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsError(false);
     setIsSubmitted(false);
 
-    emailjs.send(
-      'YOUR_SERVICE_ID',
-      'YOUR_TEMPLATE_ID', 
-      { email, message },
-      'YOUR_USER_ID' 
-    )
-      .then((response) => {
-        console.log('Email sent successfully:', response);
+    try {
+      const response = await fetch("https://formspree.io/f/xzbwqjly", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, message }),
+      });
+
+      if (response.ok) {
         setIsSubmitted(true);
         setEmail('');
         setMessage('');
-      })
-      .catch((error) => {
-        console.error('Error sending email:', error);
-        setIsError(true);
-      });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setIsError(true);
+    }
   };
 
   return (
@@ -127,6 +160,7 @@ function ContactForm() {
         <input
           type="email"
           id="email"
+          name="email"  // Add this for Formspree
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -139,6 +173,7 @@ function ContactForm() {
         </label>
         <textarea
           id="message"
+          name="message"  // Add this for Formspree
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
@@ -334,7 +369,7 @@ function App() {
             </p>
           </div>
           <div className="w-full md:w-1/2 md:pl-6">
-            <img src="https://via.placeholder.com/400x300" alt="Abhay Shastry" className="rounded-lg shadow-lg w-full" />
+            <img src={profileImage} alt="Abhay Shastry"  className="rounded-lg shadow-lg w-full transition-transform duration-300 transform group-hover:scale-105" />
           </div>
         </section>
 
