@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { BriefcaseIcon, AcademicCapIcon, BeakerIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { EnvelopeIcon, DocumentTextIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import './index.css';
+import emailjs from 'emailjs-com';
+import NET from 'vanta/dist/vanta.net.min';
+import * as THREE from 'three';
+
 import project3Image from './Images/maxresdefault.jpg'
 import project2Image from './Images/hnlhcy6ipoqegwblrnge.webp'
 import project1Image from './Images/Sol.png'
@@ -85,20 +89,33 @@ function TypewriterEffect({ text, speed = 50 }) {
   return <span>{displayText}</span>;
 }
 
-
-
-
 function ContactForm() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', { email, message });
-    setIsSubmitted(true);
-    setEmail('');
-    setMessage('');
+    setIsError(false);
+    setIsSubmitted(false);
+
+    emailjs.send(
+      'YOUR_SERVICE_ID',
+      'YOUR_TEMPLATE_ID', 
+      { email, message },
+      'YOUR_USER_ID' 
+    )
+      .then((response) => {
+        console.log('Email sent successfully:', response);
+        setIsSubmitted(true);
+        setEmail('');
+        setMessage('');
+      })
+      .catch((error) => {
+        console.error('Error sending email:', error);
+        setIsError(true);
+      });
   };
 
   return (
@@ -138,7 +155,10 @@ function ContactForm() {
         </button>
       </div>
       {isSubmitted && (
-        <p className="text-green-500 text-xs italic mt-2">Thank you for your message!</p>
+        <p className="text-green-500 text-xs italic mt-2">Thank you for your message! I'll get back to you soon.</p>
+      )}
+      {isError && (
+        <p className="text-red-500 text-xs italic mt-2">There was an error sending your message. Please try again later.</p>
       )}
     </form>
   );
@@ -219,6 +239,40 @@ function SkillCategory({ category, skills }) {
   );
 }
 
+function VantaBackground() {
+  const [vantaEffect, setVantaEffect] = useState(null);
+  const vantaRef = useRef(null);
+
+  useEffect(() => {
+    if (!vantaEffect) {
+      setVantaEffect(
+        NET({
+          el: vantaRef.current,
+          THREE: THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x93979d,
+          backgroundColor: 0xd0941,
+          points: 13,
+          maxDistance: 20.00,
+          spacing: 15.00,
+        })
+      );
+    }
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, [vantaEffect]);
+
+  return <div ref={vantaRef} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }} />;
+}
+
+
 function App() {
   const skillsData = [
     {
@@ -265,10 +319,12 @@ function App() {
 
 
   return (
-    <div className="bg-gray-900 min-h-screen text-white">
-      <Navbar />
+    <>
+      <VantaBackground />
+      <div className="relative z-10 bg-opacity-75 bg-gray-900 min-h-screen text-white">
+        <Navbar />
       
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-16">
+        <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-16">
         {/* About section */}
         <section id="about" className="px-4 py-6 sm:px-0 flex flex-col md:flex-row items-center">
           <div className="w-full md:w-1/2 mb-6 md:mb-0">
@@ -472,6 +528,7 @@ function App() {
         </div>
       </footer>
     </div>
+    </>
   );
 }
 
