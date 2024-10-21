@@ -8,3 +8,6 @@ export function smoothScroll(e, target) {
       });
     }
   }
+
+
+  

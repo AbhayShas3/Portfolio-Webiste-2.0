@@ -30,14 +30,14 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <span className="text-xl font-bold text-white">Abhay Shastry</span>
+            <span className="text-xl font-bold text-white font-sans">Abhay Shastry</span>
           </div>
           <div className="hidden md:flex items-center space-x-4">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300 ease-in-out"
               >
                 {item.name}
               </a>
@@ -46,7 +46,7 @@ function Navbar() {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition duration-300 ease-in-out"
             >
               {isMenuOpen ? (
                 <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -58,22 +58,24 @@ function Navbar() {
         </div>
       </div>
 
-      {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.name}
-              </a>
-            ))}
-          </div>
+      <div 
+        className={`md:hidden transition-all duration-300 ease-in-out ${
+          isMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+        } overflow-hidden`}
+      >
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          {navItems.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-300 ease-in-out"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {item.name}
+            </a>
+          ))}
         </div>
-      )}
+      </div>
     </nav>
   );
 }
@@ -160,7 +162,7 @@ function ContactForm() {
         <input
           type="email"
           id="email"
-          name="email"  // Add this for Formspree
+          name="email"  
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -173,7 +175,7 @@ function ContactForm() {
         </label>
         <textarea
           id="message"
-          name="message"  // Add this for Formspree
+          name="message"  
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
@@ -292,8 +294,8 @@ function VantaBackground() {
           scale: 1.00,
           scaleMobile: 1.00,
           color: 0x93979d,
-          backgroundColor: 0xd0941,
-          points: 13,
+          backgroundColor: 0x0d0941,
+          points: 10,
           maxDistance: 20.00,
           spacing: 15.00,
         })
@@ -304,7 +306,12 @@ function VantaBackground() {
     };
   }, [vantaEffect]);
 
-  return <div ref={vantaRef} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }} />;
+  return (
+    <>
+      <div ref={vantaRef} className="fixed inset-0 z-[-2]" />
+      <div className="fixed inset-0 bg-black opacity-60 z-[1]" />
+    </>
+  );
 }
 
 
@@ -316,7 +323,7 @@ function App() {
     },
     {
       category: "Frameworks & Libraries",
-      skills: ["TensorFlow", "PyTorch", "scikit-learn", "Flask", "FastAPI","Paddle Paddle","Onnx","OpenCV","NLTK","React", "Node.js", "MapReduce", "Hadoop"]
+      skills: ["TensorFlow", "PyTorch", "scikit-learn", "Flask", "FastAPI","Paddle Paddle","Onnx","OpenCV","NLTK","React", "Node.js", "MapReduce", "Hadoop", "TensorRT"]
     },
     {
       category: "Cloud & DevOps",
@@ -324,7 +331,7 @@ function App() {
     },
     {
       category: "Databases",
-      skills: ["SQL", "MongoDB", "Redis", "Cassandra"]
+      skills: ["SQL", "MongoDB", "CockroachDB", "Cassandra", "DynamoDB"]
     },
   ];
 
@@ -361,21 +368,41 @@ function App() {
       
         <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-16">
         {/* About section */}
-        <section id="about" className="px-4 py-6 sm:px-0 flex flex-col md:flex-row items-center">
-          <div className="w-full md:w-1/2 mb-6 md:mb-0">
-            <h2 className="text-3xl font-semibold text-white mb-4">About Me</h2>
-            <p className="text-xl text-gray-300">
-            <TypewriterEffect text="I am a Master’s student in Computer and Information Sciences at the University of Florida with hands-on experience in machine learning, cloud platforms, and full-stack development. I've worked on high-impact projects for clients like AbinBev and Emirates Airlines. My expertise includes researching, developing, and deploying models, optimizing cloud infrastructures, and creating scalable APIs. I enjoy solving complex challenges and pushing the boundaries of technology." speed={10} /> 
-            </p>
-          </div>
-          <div className="w-full md:w-1/2 md:pl-6">
-            <img src={profileImage} alt="Abhay Shastry"  className="rounded-lg shadow-lg w-full transition-transform duration-300 transform group-hover:scale-105" />
-          </div>
-        </section>
+        <section id="about" className="px-4 py-12 sm:px-0 flex flex-col md:flex-row items-center">
+  <div className="w-full md:w-1/2 mb-8 md:mb-0 pr-0 md:pr-8">
+    <h2 className="text-4xl font-bold text-white mb-6 border-b-2 border-blue-500 pb-2 inline-block">About Me</h2>
+    <div className="text-lg text-gray-300 leading-relaxed mb-6">
+    <TypewriterEffect text="Hi, I’m Abhay. I’m a Master’s in Computer Science student at the University of Florida. 
+  I have 2 years of hands-on experience in machine learning, cloud platforms, and full-stack development, I’ve worked on projects for global clients like ABInBev and Emirates. 
+  My focus has been on researching, building, and deploying models that solve real-world problems, from product recognition to automating quality checks. 
+  I’m passionate about leveraging technology to create impactful solutions, and I’m always eager to tackle new challenges" speed={10} />
+    </div>
+    <a
+      href={resumePDF}
+      download="Abhay_Shastry_Resume.pdf"
+      className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+    >
+      Download CV
+      <svg className="ml-2 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+      </svg>
+    </a>
+  </div>
+  <div className="w-full md:w-1/2 md:pl-8 flex justify-center">
+    <div className="w-64 h-64 rounded-custom overflow-hidden shadow-lg">
+      <img 
+        src={profileImage} 
+        alt="Abhay Shastry" 
+        className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:scale-105"
+      />
+    </div>
+  </div>
+</section>
 
         {/* Experience section */}
         <section id="experience" className="mt-10 px-4 py-6 sm:px-0">
-          <h2 className="text-2xl font-semibold text-white mb-8">Education & Experience</h2>
+        <h2 className="text-3xl font-bold text-white mb-8 border-b-2 border-blue-500 pb-2 inline-block">Education & Experience</h2>
+        
           <Timeline>
             <TimelineItem
               date="August 2024 - Present"
@@ -499,7 +526,7 @@ function App() {
         {/* Skills section */}
         <section id="skills" className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-white mb-8">Skills</h2>
+            <h2 className="text-3xl font-bold text-white mb-8 border-b-2 border-blue-500 pb-2 inline-block">Skills</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {skillsData.map((category, index) => (
                 <SkillCategory key={index} category={category.category} skills={category.skills} />
@@ -510,7 +537,7 @@ function App() {
 
         {/* Projects section */}
         <section id="projects" className="mt-10 px-4 py-6 sm:px-0">
-          <h2 className="text-2xl font-semibold text-white mb-6">Projects</h2>
+          <h2 className="text-3xl font-bold text-white mb-8 border-b-2 border-blue-500 pb-2 inline-block">Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
               <div key={project.id} className="bg-gray-800 overflow-hidden shadow-lg rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
@@ -533,7 +560,7 @@ function App() {
           </div>
           <div className="mt-8 text-center">
             <a 
-              href="https://github.com/yourusername" 
+              href="https://github.com/abhayshas3" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out"
@@ -546,13 +573,13 @@ function App() {
 
         {/* Contact Form section */}
         <section id="contact" className="mt-10 px-4 py-6 sm:px-0">
-          <h2 className="text-2xl font-semibold text-white mb-6">Get in Touch</h2>
+          <h2 className="text-3xl font-bold text-white mb-8 border-b-2 border-blue-500 pb-2 inline-block">Get in Touch</h2>
           <ContactForm />
         </section>
 
         {/* Social Links section */}
         <section id="social" className="mt-10 px-4 py-6 sm:px-0">
-          <h2 className="text-2xl font-semibold text-white mb-6">Connect with Me</h2>
+          <h2 className="text-3xl font-bold text-white mb-8 border-b-2 border-blue-500 pb-2 inline-block">Connect with Me</h2>
           <SocialLinks />
         </section>
       </main>
